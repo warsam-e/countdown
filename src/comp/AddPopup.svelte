@@ -1,6 +1,13 @@
 <script lang="ts">
   import { countdown_from, create_item, parse_time } from "$lib/common";
   import { current_time } from "$lib/stores";
+  import PopupView from "./PopupView.svelte";
+
+  interface Props {
+    showing: boolean;
+  }
+
+  let { showing = $bindable() }: Props = $props();
 
   let title = $state("");
   let value = $state("");
@@ -39,40 +46,43 @@
     });
     title = "";
     value = "";
+    showing = false;
   }
 </script>
 
-<div class="add_view">
-  <div class="instruction">
-    Enter the time you want to count down from, even in plain english.
+<PopupView title="Create Countdown" bind:showing>
+  <div class="add_popup">
+    <div class="instruction">
+      Enter the time you want to count down from, even in plain english.
+    </div>
+    <div class="preview style-{preview_style}">{preview}</div>
+    <div class="input_time">{input_time?.toLocaleString()}</div>
+    <form {onsubmit}>
+      <input type="text" bind:value={title} placeholder="Title" required />
+      <input type="text" bind:value placeholder="1 hour later" required />
+      <button
+        type="submit"
+        class="button link hover"
+        class:hover={valid}
+        disabled={!valid}>Create</button
+      >
+    </form>
   </div>
-  <div class="preview style-{preview_style}">{preview}</div>
-  <div class="input_time">{input_time?.toLocaleString()}</div>
-  <form {onsubmit}>
-    <input type="text" bind:value={title} placeholder="Title" required />
-    <input type="text" bind:value placeholder="1 hour later" required />
-    <button
-      type="submit"
-      class="button link hover"
-      class:hover={valid}
-      disabled={!valid}>Create</button
-    >
-  </form>
-</div>
+</PopupView>
 
 <style lang="scss">
   @use "$styles/theme.scss";
-  .add_view {
-    height: 10rem;
-    border-radius: 1rem;
-    background: theme.$base;
-    box-shadow: inset 0 0 0 1px rgba(theme.$text, 0.05);
+
+  .add_popup {
+    width: 30rem;
+    height: 20rem;
+    padding: 1rem;
     display: flex;
+    align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    // gap: 1rem;
-    padding: 1rem;
     > .instruction {
+      text-align: center;
       font-size: 0.8rem;
       opacity: 0.6;
       font-weight: 600;
@@ -91,13 +101,15 @@
     }
     > .input_time {
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.8rem;
       font-weight: 600;
       opacity: 0.6;
     }
     > form {
+      margin-top: 0.8rem;
       display: flex;
       align-items: center;
+      flex-direction: column;
       gap: 0.5rem;
       width: 100%;
       > input {
@@ -110,6 +122,15 @@
         border-radius: calc(2rem / 4.4);
         box-shadow: inset 0 0 0 1px rgba(theme.$text, 0.05);
       }
+      > .button {
+        width: 100%;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 820px) {
+    .add_popup {
+      width: calc(100dvw - 4rem);
     }
   }
 </style>

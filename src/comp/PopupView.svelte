@@ -119,10 +119,8 @@
       background: theme.$mantle;
       border: 1px solid rgba(theme.$text, 0.05);
       border-radius: 1rem;
-      max-height: calc(100vh - 30rem);
-
       overflow: hidden;
-      overflow-y: scroll;
+
       > .heading {
         position: sticky;
         top: 0;

@@ -57,8 +57,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
     position: relative;
     > .meta {
       position: absolute;
@@ -100,11 +98,10 @@
       }
     }
     > .info {
-      margin-top: -1.5rem;
+      margin-top: 1.5rem;
       display: flex;
       align-items: center;
       flex-direction: column;
-      gap: 0.8rem;
       > .title {
         opacity: 0.5;
         font-size: 1.5rem;
@@ -112,6 +109,19 @@
       > .time {
         font-size: 2.5rem;
         font-weight: 600;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 820px) {
+    .item {
+      > .info {
+        > .title {
+          font-size: 1.2rem;
+        }
+        > .time {
+          font-size: 2rem;
+        }
       }
     }
   }
